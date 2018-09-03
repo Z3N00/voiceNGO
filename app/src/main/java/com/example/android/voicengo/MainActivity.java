@@ -22,42 +22,40 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    WebView webview;
+    public static WebView webview;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        webview = findViewById(R.id.webView);
+
         webview = findViewById(R.id.webView);
         webview.getSettings().setBuiltInZoomControls(true);
         WebSettings settings = webview.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
 
-        webview.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_INSET);
-
-        webview.getSettings().setPluginState(WebSettings.PluginState.ON);
         webview.getSettings().setAllowFileAccess(true);
         webview.setWebViewClient(new SSLTolerentWebViewClient());
         webview.setWebChromeClient(new WebChromeClient());
+        webview.setWebViewClient(new SSLTolerentWebViewClient.MyWebViewClient());
 
         webview.loadUrl("http://www.awaazngo.org/");
 
     }
 
-    private class SSLTolerentWebViewClient extends WebViewClient {
+    private  static class SSLTolerentWebViewClient extends WebViewClient {
 
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             handler.proceed(); // Ignore SSL certificate errors
         }
 
-        private class MyWebViewClient extends WebViewClient {
+        private static class MyWebViewClient extends WebViewClient {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                webview.loadUrl(url);
+                webview.loadUrl("http://www.awaazngo.org/");
                 return true;
             }
 
